@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: FaustBot 主仓库
+    url: https://github.com/liwusen/FaustBot-llm-vtuber
+    about: FaustBot 主程序问题请到主仓库反馈
