@@ -1,4 +1,21 @@
 {
-  "updated_at": "2026-07-29T00:00:00Z",
-  "plugins": []
+  "updated_at": "2026-07-29T13:13:45Z",
+  "plugins": [
+    {
+      "id": "hello_world",
+      "name": "Hello World",
+      "description": "FaustBot 示例插件：启动时打印 Hello World，用于验证插件市场发布链路。",
+      "author": "liwusen",
+      "version": "1.0.0",
+      "download_url": "https://github.com/liwusen/FaustBotPluginMarket/releases/download/plugin-hello_world-v1.0.0/hello_world.zip",
+      "asset_name": "hello_world.zip",
+      "homepage": "https://github.com/liwusen/FaustBotPluginMarket",
+      "tags": [
+        "example",
+        "demo"
+      ],
+      "source_issue": 1,
+      "published_at": "2026-07-29T13:13:45Z"
+    }
+  ]
 }
