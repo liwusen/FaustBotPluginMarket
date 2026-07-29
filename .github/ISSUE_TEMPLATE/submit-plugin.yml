@@ -42,7 +42,7 @@ body:
     id: zip_url
     attributes:
       label: 插件包下载链接 (Zip URL)
-      description: "https 直链，30MB 以内"
+      description: "https 直链，30MB 以内,如果是有模型权重文件,请放到modelscope或其他地方托管"
       placeholder: https://example.com/my_plugin.zip
     validations:
       required: true
