@@ -1,7 +1,7 @@
 {
   "id": "hello_world",
   "name": "Hello World",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "示例插件：启动时打印 Hello World，用于验证插件发布链路。",
   "author": "liwusen",
   "homepage": "https://github.com/liwusen/FaustBotPluginMarket",
