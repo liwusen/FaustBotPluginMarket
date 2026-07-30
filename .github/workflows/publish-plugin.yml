@@ -17,6 +17,21 @@ jobs:
     if: github.event.label.name == 'approved' && contains(github.event.issue.labels.*.name, 'plugin-submission')
     runs-on: ubuntu-latest
     steps:
+      - name: Verify approver permission
+        id: verify_approver
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SENDER: ${{ github.event.sender.login }}
+        run: |
+          perm=$(gh api "repos/${{ github.repository }}/collaborators/$SENDER/permission" -q .permission || echo "none")
+          echo "label added by: $SENDER (permission: $perm)"
+          if [ "$perm" != "admin" ] && [ "$perm" != "write" ]; then
+            gh issue edit "${{ github.event.issue.number }}" --repo "${{ github.repository }}" --remove-label approved
+            gh issue comment "${{ github.event.issue.number }}" --repo "${{ github.repository }}" --body "⚠️ \`approved\` 标签只能由仓库维护者添加，已自动移除。"
+            echo "::error::$SENDER is not a maintainer; refusing to publish"
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -63,7 +78,7 @@ jobs:
           gh issue close "${{ github.event.issue.number }}" --reason completed
 
       - name: Report failure
-        if: failure()
+        if: failure() && steps.verify_approver.conclusion == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
