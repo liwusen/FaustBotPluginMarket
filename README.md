@@ -1,4 +1,4 @@
-# FaustBot Plugin Market (fpm)
+# FaustBot Plugin Market
 
 FaustBot 插件市场仓库。托管插件索引、插件包与GitHub Pages页面。
 
