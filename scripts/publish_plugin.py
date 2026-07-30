@@ -73,6 +73,14 @@ def parse_issue_body(body: str) -> dict:
     if missing:
         raise PublishError(f"issue 缺少必填字段: {', '.join(missing)}")
 
+    # description 以外的字段必须单行：raw issue body 可绕过表单，
+    # 多行值会注入 GITHUB_OUTPUT 伪造 tag/asset_path 等输出
+    for key, value in meta.items():
+        if key == "description":
+            continue
+        if any(ch in value for ch in "\r\n") or any(ord(ch) < 0x20 for ch in value):
+            raise PublishError(f"字段 {key} 含换行或控制字符")
+
     if not SAFE_PLUGIN_ID.match(meta["id"]):
         raise PublishError(f"非法插件 ID: {meta['id']!r}")
     if not VERSION_RE.match(meta["version"]):
@@ -212,6 +220,9 @@ def upsert_index(meta: dict, index_path: Path, issue_number: int) -> None:
 
 
 def write_github_output(values: dict) -> None:
+    for k, v in values.items():
+        if any(ch in str(v) for ch in "\r\n"):
+            raise PublishError(f"输出 {k} 含换行，拒绝写入 GITHUB_OUTPUT")
     out_file = os.environ.get("GITHUB_OUTPUT")
     if not out_file:
         for k, v in values.items():
